@@ -1,0 +1,11 @@
+# IDE配置文件
+.idea/
+frontend/.vscode/
+# 前端依赖与打包产物
+frontend/node_modules/
+frontend/dist/
+# Java后端编译产物
+gym-management-system/target/
+# 日志、系统缓存
+*.log
+.DS_Store
