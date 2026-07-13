@@ -9,8 +9,8 @@ CREATE TABLE `admin`  (
   `admin_account` int NOT NULL COMMENT '管理员账号',
   `admin_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '管理员密码',
   PRIMARY KEY (`admin_account`) USING BTREE,
-  -- 索引优化：账号为主键天然索引，无需额外创建
-  INDEX idx_admin_pwd(`admin_password`)
+  -- 索引只取前100字符，规避长度超限
+  INDEX idx_admin_pwd(`admin_password`(100))
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 INSERT INTO `admin` VALUES (1001, '123456');
@@ -28,9 +28,8 @@ CREATE TABLE `class_table`  (
   `class_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '课程时长',
   `coach` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '教练',
   PRIMARY KEY (`class_id`) USING BTREE,
-  -- 索引优化：按课程名、教练高频查询创建普通索引
-  INDEX idx_class_name(`class_name`),
-  INDEX idx_coach(`coach`)
+  INDEX idx_class_name(`class_name`(100)),
+  INDEX idx_coach(`coach`(100))
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 INSERT INTO `class_table` VALUES (0001, '增肌', '2026年1月1日 15:00', '60分钟', '增肌教练');
@@ -58,7 +57,6 @@ CREATE TABLE `class_order`  (
   `member_account` int NULL DEFAULT NULL COMMENT '会员账号',
   `class_begin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '开课时间',
   PRIMARY KEY (`class_order_id`) USING BTREE,
-  -- 索引优化：关联查询高频字段创建联合索引
   INDEX idx_order_class_member(`class_id`,`member_account`),
   INDEX idx_order_member(`member_account`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
@@ -92,9 +90,8 @@ CREATE TABLE `member`  (
   `card_class` int NULL DEFAULT NULL COMMENT '购买总课时',
   `card_next_class` int NULL DEFAULT NULL COMMENT '剩余课时',
   PRIMARY KEY (`member_account`) USING BTREE,
-  -- 索引优化：手机号、姓名高频检索创建索引
   INDEX idx_member_phone(`member_phone`),
-  INDEX idx_member_name(`member_name`)
+  INDEX idx_member_name(`member_name`(100))
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 INSERT INTO `member` VALUES (202009867, '123456', '张三', '女', 24, 182, 60, 13515548482, '2025-06-05', 40, 40);
@@ -123,7 +120,7 @@ CREATE TABLE `employee`  (
   `staff` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '职务',
   `employee_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`employee_account`) USING BTREE,
-  INDEX idx_employee_staff(`staff`)
+  INDEX idx_employee_staff(`staff`(100))
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 INSERT INTO `employee` VALUES (101038721,  '教练1', '女', 26, '2026-06-29', '健身教练', '健美冠军');
@@ -144,7 +141,7 @@ CREATE TABLE `equipment`  (
   `equipment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '器材状态',
   `equipment_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '器材备注信息',
   PRIMARY KEY (`equipment_id`) USING BTREE,
-  INDEX idx_equipment_status(`equipment_status`)
+  INDEX idx_equipment_status(`equipment_status`(100))
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 INSERT INTO `equipment` VALUES (1, '哑铃1', '1号房间', '正常', '');
