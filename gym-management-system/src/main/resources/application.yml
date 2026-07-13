@@ -16,7 +16,7 @@ mybatis:
 # DeepSeek 聊天配置（用于 /api/chat/query 调用）
 deepseek:
   api:
-    key: "sk-21a1ce564991406d8698cac80cd03724"
+    key: "your ai api"
     url: "https://api.deepseek.com/v1/chat/completions"
   model: "deepseek-chat"
 
