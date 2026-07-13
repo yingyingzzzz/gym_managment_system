@@ -48,7 +48,7 @@ CREATE DATABASE gym_management_system DEFAULT CHARACTER SET utf8mb4;
 
 ### 2. 启动后端
 1. 打开 `gym-management-system/src/main/resources/application.yml`
-2. 修改数据库账号、密码为本地MySQL配置
+2. 修改数据库账号、密码为本地MySQL配置、更新application.yml中的DeepSeek API密钥
 3. Maven加载依赖，运行启动类 `GymManagementSystemApplication`
 4. 后端默认端口：8080
 
